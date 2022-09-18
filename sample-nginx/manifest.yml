@@ -1,22 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: bgd-deployment
   labels:
-    app: nginx
+    app: bgd
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: nginx
+      app: bgd
   template:
     metadata:
       labels:
-        app: nginx
+        app: bgd
     spec:
       containers:
-      - name: nginx
-        image: nginx:latest
-        ports:
-        - containerPort: 80
-
+      - image: quay.io/redhatworkshops/bgd:latest
+        name: bgd
+        env:
+        - name: COLOR
+          value: "blue"
+        resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: bgd
+  name: bgd
+  namespace: bgd
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: bgd
+---
