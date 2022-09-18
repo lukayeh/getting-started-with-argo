@@ -29,7 +29,6 @@ metadata:
   labels:
     app: bgd
   name: bgd
-  namespace: bgd
 spec:
   ports:
   - port: 8080
